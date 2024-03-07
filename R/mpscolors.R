@@ -38,16 +38,35 @@ mps_cols <- function(...)  {
 ## Define MPS color palettes
 # Changes or additions to color palettes should be done here
 mps_palettes <- list(
-  `primary`   = mps_cols("yellow", "blue", "red"),
-  `secondary` = mps_cols("teal", "orange", "wine", "green", "dblue", "purple"),
-  `dark`      = mps_cols("yellow", "blue", "red", "teal", "orange", "wine",
-                         "green", "dblue", "purple"),
-  `light`     = mps_cols("light yellow", "light blue", "light red",
-                         "light teal", "light orange", "light wine",
-                         "light green", "light dblue", "elight wine"),
+  `primary`   = mps_cols("red", "yellow", "blue"),
+  `secondary` = mps_cols("orange", "green", "teal", "dblue", "purple", "wine"),
+  `dark`      = mps_cols("red", "orange", "yellow", "green", "teal", "blue",
+                         "dblue", "purple", "wine"),
+  `light`     = mps_cols("light red", "light orange", "light yellow",
+                         "light green", "light teal", "light blue",
+                         "light dblue", "light wine", "elight wine"),
   `hot`      = mps_cols("red", "orange", "yellow"),
   `warm`     = mps_cols("light red", "light orange", "light yellow"),
   `cold`     = mps_cols("dblue", "blue", "teal", "green"),
   `cool`     = mps_cols("light dblue", "light blue", "light teal", "light green"),
   `purples`  = mps_cols("wine", "purple", "light wine", "elight wine")
 )
+
+# Function to interpolate an mps color palette
+#
+# @param palette  Character name of palette in mps_palettes
+# @param reverse  Boolean to reverse the palette order
+# @param ...      Args to pass to colorRampPalette()
+mps_pal <- function(palette = "primary", reverse = FALSE, ...)  {
+  pal <- mps_palettes[[palette]]
+
+  if (reverse) pal <- rev(pal)
+
+  colorRampPalette(pal, ...)
+}
+
+
+
+
+
+
