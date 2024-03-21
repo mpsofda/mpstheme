@@ -19,6 +19,3 @@ primary, secondary, dark, light, hot, warm, cold, cool, purples.}
 \description{
 Fill scale of MPS colors for ggplot2
 }
-\examples{
-# Examples to follow
-}

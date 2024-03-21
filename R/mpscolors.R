@@ -67,12 +67,12 @@ mps_palettes <- list(
   `purples`  = mps_cols("wine", "purple", "light wine", "elight wine")
 )
 
-# Function to interpolate an MPS color palette
-#
-# @param palette  Character name of palette in mps_palettes
-# @param reverse  Boolean to reverse the palette order
-# @param ...      Args to pass to colorRampPalette()
-#
+#' Function to interpolate an MPS color palette
+#'
+#' @param palette  Character name of palette in mps_palettes.
+#' @param reverse  Boolean to reverse the palette order
+#' @param ...      Args to pass to colorRampPalette()
+#'
 mps_pal <- function(palette = "primary", reverse = FALSE, ...)  {
   pal <- mps_palettes[[palette]]
 
@@ -89,11 +89,8 @@ mps_pal <- function(palette = "primary", reverse = FALSE, ...)  {
 #' @param reverse     Boolean for whether to reverse palette. Default is FALSE.
 #' @param ...         Additional args passed to discrete_scale() or scale_color_gradientn()
 #'
-#' @return
 #' @export
 #'
-#' @examples
-#' # Examples to follow
 scale_color_mps <- function(palette = "primary", discrete = TRUE,
                             reverse = FALSE, ...) {
   pal <- mps_pal(palette = palette, reverse = reverse)
@@ -116,11 +113,8 @@ scale_color_mps <- function(palette = "primary", discrete = TRUE,
 #' @param reverse     Boolean for whether to reverse palette. Default is FALSE.
 #' @param ...         Additional args passed to discrete_scale() or scale_color_gradientn()
 #'
-#' @return
 #' @export
 #'
-#' @examples
-#' # Examples to follow
 scale_fill_mps <- function(palette = "primary", discrete = TRUE,
                             reverse = FALSE, ...) {
   pal <- mps_pal(palette = palette, reverse = reverse)
