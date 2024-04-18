@@ -16,7 +16,8 @@ light wine, elight wine.}
 A hex value for the MPS color
 }
 \description{
-Function for retrieving hex codes of MPS official colors.
+This function allows the user to retrieve the hex code of official MPS colors
+for use in any package function which can accept a hex code to change the color of some element.
 }
 \examples{
 # Return the hex value of MPS Wine

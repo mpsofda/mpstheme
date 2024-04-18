@@ -7,7 +7,8 @@
 theme_ofda(
   pri.color = mps_cols("wine"),
   sec.color = mps_cols("light wine"),
-  ter.color = mps_cols("gray")
+  ter.color = "gray40",
+  ...
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ theme_ofda(
 \item{sec.color}{Secondary color of the theme. Impacts axis titles and legend title.}
 
 \item{ter.color}{Tertiary color of the theme. Impacts axis labels, captions, and legend text.}
+
+\item{...}{Other arguments to be passed to theme()}
 }
 \description{
 Basic theme for MPS graphs. Based on Fiona Adams' excellent School Transformation Theme.

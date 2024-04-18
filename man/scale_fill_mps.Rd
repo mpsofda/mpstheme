@@ -4,7 +4,7 @@
 \alias{scale_fill_mps}
 \title{Fill scale of MPS colors for ggplot2}
 \usage{
-scale_fill_mps(palette = "primary", discrete = TRUE, reverse = FALSE, ...)
+scale_fill_mps(palette = "standard", discrete = TRUE, reverse = FALSE, ...)
 }
 \arguments{
 \item{palette}{Character name of an MPS Palette. Valid options include:
@@ -17,5 +17,5 @@ primary, secondary, dark, light, hot, warm, cold, cool, purples.}
 \item{...}{Additional args passed to discrete_scale() or scale_color_gradientn()}
 }
 \description{
-Fill scale of MPS colors for ggplot2
+This function allows a user to set a fill scale based on MPS colors.
 }

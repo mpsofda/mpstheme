@@ -1,0 +1,278 @@
+---
+title: "Untitled"                 # Metadata title
+author: "author"                  # Metadata author
+date: 'r Sys.Date()'              # Metadata date
+output: 
+  pdf_document:
+    latex_engine: lualatex
+    highlight: mpstheme.theme
+header-includes:
+  - \input{preamble.tex}
+params:
+  docauthor:   "Morrigan Hughes"   # Author for inclusion in final doc text
+  doctitle:    "R Markdown Template"    # Title for inclusion in final doc text
+  docsubtitle: "MPS Theme Package Demo" # Subtitle for inclusion in final doc text
+---
+
+```{r setup, include=FALSE}
+## Knitr Chunk Options
+# Add number lines to source code blocks
+knitr::opts_hooks$set(
+  numberLines = function(options) {
+    attrs <- paste0("attr.", options$numberLines)
+    options[attrs] <- lapply(options[attrs], c, ".numberLines")
+    options
+  }
+)
+
+# Rest of the knitr chunk options
+knitr::opts_chunk$set(
+  numberLines = "source",
+  echo = FALSE,
+  dev = "png",
+  dpi = 300
+)
+
+## Required Packages for Template
+require(extrafont)
+loadfonts(device = "all", quiet = TRUE)
+require(showtext)
+showtext_auto()
+showtext_opts(dpi = 300)      #'*Use this when knitting to pdf or html*
+#showtext_opts(dpi = 96)       #'*Use this for inline viewing of plots*
+require(ggplot2)
+require(mpstheme)
+require(scales)
+
+## Required Packages for Document
+require(tidyverse)
+```
+```{r title-chunk, fig.height=.5, fig.width=6.5, fig.align='center'}
+title_ofda(title = params$doctitle)
+```
+``` {=latex}
+% SUBTITLE CHUNK
+\vspace{-30pt}
+\fontspec{Poppins SemiBold}\begin{center}\large
+\text{\color{gray}{`r paste0(params$docsubtitle)`}}\normalfont\end{center}
+
+% AUTHOR AND DATE CHUNK
+\begin{minipage}{0.7\textwidth}
+\text{\color{gray}{Written By: }}
+\textsc{\color{mpsblue}{`r paste0(params$docauthor)`}}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+\fontspec{Poppins SemiBold}\flushright
+\text{\color{gray}{`r format(Sys.Date(), "%B %Y")`}}\normalfont
+\end{minipage}
+\normalfont
+```
+
+# Testing a Level 1 Heading
+## Testing a Level 2 Heading
+### Testing a Level 3 Heading
+
+# Displaying text in a document
+## Font styles
+This is normal text.  
+This is **bolded** text.  
+This is *italicized* text.  
+This is ^superscript^ text.  
+This is ~~strikethrough~~ text.  
+
+### Long Paragraphs:
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a odio in purus dapibus auctor. Aliquam dictum, diam sed molestie vestibulum, tellus lectus consequat magna, vel condimentum eros lectus et mauris. Duis quis rhoncus neque. Suspendisse ac eros in nisl ultricies egestas ac in metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque et ex lorem. Pellentesque commodo purus id justo malesuada, quis venenatis mi fringilla. Nam egestas ipsum nisl, placerat fringilla mauris pretium quis. Nam fermentum, mi sollicitudin suscipit efficitur, orci nisl accumsan felis, sit amet dapibus diam ante nec eros. Donec malesuada pretium mi, sed commodo massa auctor vel. Nunc blandit nisi dolor, ut pulvinar erat rhoncus luctus. Aliquam id ornare nunc. Vivamus dignissim, risus eu dictum gravida, enim ipsum euismod lorem, vel consectetur lectus orci at tellus.
+
+Suspendisse neque libero, tristique ut ante in, rhoncus aliquet lacus. Curabitur aliquam sapien diam, sit amet sollicitudin arcu faucibus ac. Nullam sed nisl tincidunt, sagittis lectus porta, aliquam arcu. In id imperdiet orci, ac facilisis est. In pretium pretium tortor, in commodo nisi vestibulum quis. Pellentesque eget gravida turpis. Integer sagittis, urna non mollis dapibus, erat felis vulputate ipsum, eu malesuada ligula augue nec nulla.
+
+## R Code Chunk:
+```{r demo-chunk, echo=TRUE}
+summary(mtcars$mpg)
+```
+
+## Block Quote:
+
+> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean sed tincidunt urna. Sed scelerisque sit amet nunc et maximus. Maecenas et posuere quam. Pellentesque aliquam volutpat auctor. Duis non neque luctus felis varius vehicula at quis mi. Etiam sed sem neque. Nam odio nulla, suscipit eu erat non, feugiat posuere massa.
+
+## Non-evaluated code blocks:
+```
+summary(mtcars$mpg)
+```
+
+## Inline Code
+You can use `scale_color_mps()` with your plots now!
+
+## Special notes, warnings, and other callouts
+Use `\notebox{Some Note}`, `\warnbox{Some warning}`, `\impbox{Some important note}`, and `\specbox{Box Title}{Box Content}` for the special block notes and warnings seen below:
+
+### Notes
+```
+\notebox{This is a note- something interesting worth extracting and pointing out to the reader! We, of course, should show what happens when our notes get pretty long, too! Gotta make sure text wrapping actually works.}
+```
+\notebox{This is a note- something interesting worth extracting and pointing out to the reader! We, of course, should show what happens when our notes get pretty long, too! Gotta make sure text wrapping actually works.}
+
+### Warnings
+```
+\warnbox{This is a warning: Something critical you should know before taking action!}
+```
+\warnbox{This is a warning: Something critical you should know before taking action!}
+
+### Important Messages
+```
+\impbox{This is an important notice- Something is important!}
+```
+\impbox{This is an important notice- Something is important!}
+
+
+### Other Messages
+```
+\specbox{EXAMPLE}{This is some example text.}
+```
+\specbox{EXAMPLE}{This is some example text.}
+
+## Adding captions to figures, plots, and tables
+
+You can use `mps_caption(caption, type)` to caption your plots, tables, and figures with an automatically incremented number and whatever caption you want to give the item. You do this in the body text **after** the code chunk that displays your table, figure, or plot.
+
+```` {r eval=FALSE, echo=TRUE}
+## Usage
+# Plots
+mps_caption("Some Plot Caption/Alt Text", "plots")
+
+# Tables
+mps_caption("Some Table Caption", "tables")
+
+# Figures
+mps_caption("Some figure caption", "figures")
+
+````
+`r mps_caption("Usage of the new mps\\_caption function.", "figures")`
+
+## Changing the color of inline text
+
+You can use `mps_tcolor(color, text, mps = TRUE/FALSE)` to change the color of text inline. `mps = TRUE` is the default behavior of the function. For example, `r mps_tcolor("wine","this is wine-colored")`, while `r mps_tcolor("teal","this is teal-colored")`.
+
+Available colors when argument `mps = TRUE` : 
+`r mps_tcolor('blue', 'blue')`, 
+`r mps_tcolor('darkblue', 'darkblue')`, 
+`r mps_tcolor('gray', 'gray')`, 
+`r mps_tcolor('green', 'green')`, 
+`r mps_tcolor('orange', 'orange')`, 
+`r mps_tcolor('purple', 'purple')`, 
+`r mps_tcolor('red', 'red')`, 
+`r mps_tcolor('teal', 'teal')`, 
+`r mps_tcolor('wine', 'wine')`, 
+`r mps_tcolor('yellow', 'yellow')`.
+
+And when argument `mps = FALSE` :
+`r mps_tcolor('black', 'black', mps = FALSE)`, 
+`r mps_tcolor('blue', 'blue', mps = FALSE)`, 
+`r mps_tcolor('brown', 'brown', mps = FALSE)`, 
+`r mps_tcolor('cyan', 'cyan', mps = FALSE)`, 
+`r mps_tcolor('darkgray', 'darkgray', mps = FALSE)`, 
+`r mps_tcolor('gray', 'gray', mps = FALSE)`, 
+`r mps_tcolor('green', 'green', mps = FALSE)`, 
+`r mps_tcolor('lightgray', 'lightgray', mps = FALSE)`, 
+`r mps_tcolor('lime', 'lime', mps = FALSE)`, 
+`r mps_tcolor('magenta', 'magenta', mps = FALSE)`, 
+`r mps_tcolor('olive', 'olive', mps = FALSE)`, 
+`r mps_tcolor('orange', 'orange', mps = FALSE)`, 
+`r mps_tcolor('pink', 'pink', mps = FALSE)`, 
+`r mps_tcolor('purple', 'purple', mps = FALSE)`, 
+`r mps_tcolor('red', 'red', mps = FALSE)`, 
+`r mps_tcolor('teal', 'teal', mps = FALSE)`, 
+`r mps_tcolor('violet', 'violet', mps = FALSE)`, 
+`r mps_tcolor('white', 'white', mps = FALSE)`, 
+`r mps_tcolor('yellow', 'yellow', mps = FALSE)`.
+
+
+# MPS Theme Package and `ggplot()`
+There are, as of `r format(Sys.Date(), "%d-%b-%Y")`, **8** user-available `ggplot()` functions in the new `mpstheme` package. The functions are below, and their documentation can be retrieved using the R Console by typing in `?function` [e.g. `?mps_cols`]. The currently available `ggplot()` functions are as follows:
+
+* `mps_cols()`
+* `scale_color_mps()`
+* `scale_fill_mps()`
+* `theme_ofda()`
+* `theme_ofda_donut()`
+* `title_ofda()`
+* `mps_fonts()`
+* `geom_label_mps()`
+
+## Demonstration of Functions
+We will begin by using the base `mtcars` dataset with a small mutate function included. Then, using this data, we will plot quarter-mile time in seconds against vehicle horsepower, and use the number of engine cylinders as the color scale. We'll also facet the output by transmission style.
+``` {r ggplot-chunk-2, echo = TRUE}
+p <- mtcars %>% mutate(
+  transmission = case_when(
+    am == 0 ~ "Automatic",
+    am == 1 ~ "Manual"
+  )
+) %>% 
+  ggplot(aes(qsec, hp, color = as.factor(cyl))) +
+    geom_point() +
+    labs(
+      title = "Testing a Title Here",
+      subtitle = "Some kind of subtitle, yo",
+      caption = "Also, need to worry about captioning!",
+      x = "Quarter Mile Time in Seconds",
+      y = "Horsepower",
+      color = "Cylinders"
+    ) +
+    facet_grid(~transmission)
+
+p
+```
+`r mps_caption("Default ggplot theme and color scale.", "plots")`
+
+This is the default `ggplot` theme. There are other themes available in the basic `ggplot` package, and even more themes available in `ggthemes`. None of them, however, provided anything which matches REA's and OFDA's typical graphs. So, let's add in `scale_color_mps()` to change the color scale to MPS primary colors.
+
+\newpage
+``` {r ggplot-chunk-3, echo = TRUE}
+p + scale_color_mps(palette = "primary", discrete = TRUE)
+```
+`r mps_caption("Default ggplot theme with MPS primary colors.", "plots")`
+
+This already looks much more like an MPS-style, but it's still very much a basic `ggplot` look. So, let's change that by adding `theme_ofda()`. **NOTE** In the setup chunk of your document, you need to have `showtext_auto()` included after loading the `showtext` package. 
+
+\newpage
+``` {r ggplot-chunk-4, echo = TRUE}
+p + scale_color_mps(palette = "primary", discrete = TRUE) +
+  theme_ofda()
+```
+`r mps_caption("Default MPS theme with MPS primary colors.", "plots")`
+
+This is much better! So, what exactly is `theme_ofda()` doing to the base `ggplot()` theme? Well, see below for all the changes.
+``` {r ggplot-theme-explain, echo = TRUE, eval = FALSE}
+  theme(
+    # Set all text-based elements of the theme
+    # Base text definition
+    text = element_text(size = 14, color = pri.color, family = "Poppins"),
+    # Plot titles, subtitles, and captions
+    plot.title = element_text(hjust = 0.5),
+    plot.title.position = "panel",
+    plot.subtitle = element_text(size = 11, hjust = 0.5),
+    plot.caption = element_text(size = 9, face = "italic", color = ter.color, hjust = 1),
+    plot.caption.position = "plot",
+    # Axis titles and text
+    axis.title = element_text(size = 11),
+    axis.text = element_text(size = 9, face = "italic", color = ter.color),
+    axis.title.y = element_text(margin = margin(r = 10), color = sec.color, angle = 90),
+    axis.title.x = element_text(margin = margin(t = 10), color = sec.color),
+    # Legend titles, text, and formatting
+    legend.title = element_text(size = 11, color = sec.color),
+    legend.text = element_text(size = 9, color = ter.color),
+    # Plot aesthetics
+    plot.background = element_rect(color = pri.color, linewidth = 1),
+    plot.margin = margin(.125, .125, .125, .125, unit = "inches"),
+    # Panel aesthetics
+    panel.background = element_rect(fill = "white"),
+    panel.border = element_rect(fill = NA, color = ter.color),
+    panel.grid = element_line(color = "gray93", linewidth = 0.5, linetype = 1),
+    panel.grid.minor = element_blank(),
+    # Legend aesthetics
+    legend.key = element_rect(fill = "white"),
+    # Facet aesthetics
+    strip.background = element_rect(fill = pri.color, color = pri.color),
+    strip.text = element_text(size = 9, face = "italic", color = "white"),
+    ...
+  )
+```

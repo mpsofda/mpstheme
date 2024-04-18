@@ -1,29 +1,39 @@
 ## Define MPS Official Colors
 # Changes or additions to color swatches should be done here
 mps_colors <- c(
-  `yellow`       = "#fcb614",
+  `yellow`       = "#fdb913",
   `blue`         = "#5261ac",
-  `red`          = "#bf301a",
+  `red`          = "#be3326",
+  `wine`         = "#591f63",
+  `orange`       = "#f57a21",
+  `green`        = "#9ea617",
   `teal`         = "#009590",
-  `orange`       = "#f47c20",
-  `wine`         = "#850c71",
-  `green`        = "#9fa617",
-  `dblue`        = "#0067a3",
-  `purple`       = "#5b4099",
-  `gray`         = "#7f7f7f",
-  `light gray`   = "#b4b7b7",
-  `light yellow` = "#f1ce7d",
-  `light blue`   = "#8c96c8",
-  `light red`    = "#d47666",
-  `light teal`   = "#66bfbb",
-  `light orange` = "#f8af79",
-  `light green`  = "#c5c973",
-  `light dblue`  = "#66a2c8",
-  `light wine`   = "#b56daf",
-  `elight wine`  = "#eac1df"
+  `gray`         = "#b2b2b2",
+
+  `light yellow` = "#fed571",
+  `light blue`   = "#97a0cd",
+  `light red`    = "#d8857d",
+  `light wine`   = "#9b79a1",
+  `light orange` = "#f9af7a",
+  `light green`  = "#c5ca74",
+  `light teal`   = "#66bfbc",
+  `light gray`   = "#c9c9c9",
+
+  `dark yellow`  = "#b1820d",
+  `dark blue`    = "#394478",
+  `dark red`     = "#85241b",
+  `dark wine`    = "#3e1645",
+  `dark orange`  = "#ac5517",
+  `dark green`   = "#6f7410",
+  `dark teal`    = "#006865",
+  `dark gray`    = "#7d7d7d"
 )
 
 #' Function for retrieving hex codes of MPS official colors.
+#'
+#' @description
+#' This function allows the user to retrieve the hex code of official MPS colors
+#' for use in any package function which can accept a hex code to change the color of some element.
 #'
 #' @param ... Character names of MPS colors. Valid options include: yellow, blue,
 #' red, teal, orange, wine, green, dblue, purple, gray, light gray, light yellow,
@@ -46,7 +56,7 @@ mps_cols <- function(...)  {
   if (is.null(cols))
     return (mps_colors)
 
-  mps_colors[cols]
+  unname(mps_colors[cols])
 }
 
 
@@ -54,17 +64,26 @@ mps_cols <- function(...)  {
 # Changes or additions to color palettes should be done here
 mps_palettes <- list(
   `primary`   = mps_cols("red", "yellow", "blue"),
-  `secondary` = mps_cols("orange", "green", "teal", "dblue", "purple", "wine"),
-  `dark`      = mps_cols("red", "orange", "yellow", "green", "teal", "blue",
-                         "dblue", "purple", "wine"),
+  `secondary` = mps_cols("orange", "green", "teal", "wine"),
+  `standard`  = mps_cols("red", "orange", "yellow", "green", "teal",
+                         "blue", "wine"),
+  `dark`      = mps_cols("dark red", "dark orange", "dark yellow",
+                         "dark green", "dark teal", "dark blue", "dark wine"),
   `light`     = mps_cols("light red", "light orange", "light yellow",
-                         "light green", "light teal", "light blue",
-                         "light dblue", "light wine", "elight wine"),
-  `hot`      = mps_cols("red", "orange", "yellow"),
-  `warm`     = mps_cols("light red", "light orange", "light yellow"),
-  `cold`     = mps_cols("dblue", "blue", "teal", "green"),
-  `cool`     = mps_cols("light dblue", "light blue", "light teal", "light green"),
-  `purples`  = mps_cols("wine", "purple", "light wine", "elight wine")
+                         "light green", "light teal", "light blue", "light wine"),
+  `hot`      = mps_cols("dark red", "dark orange", "dark yellow"),
+  `warm`     = mps_cols("red", "orange", "yellow"),
+  `mild`     = mps_cols("light red", "light orange", "light yellow"),
+  `frigid`   = mps_cols("dark green", "dark teal", "dark blue", "dark wine"),
+  `cold`     = mps_cols("green", "teal", "blue", "wine"),
+  `cool`     = mps_cols("light green", "light teal", "light blue", "light wine"),
+  `all`      = mps_cols(),
+  `colorful` = mps_cols(
+    "dark red", "red", "light red", "dark orange", "orange", "light orange",
+    "dark yellow", "yellow", "light yellow", "dark green", "green", "light green",
+    "dark teal", "teal", "light teal", "dark blue", "blue", "light blue",
+    "dark wine", "wine", "light wine"
+  )
 )
 
 #' Function to interpolate an MPS color palette
@@ -83,6 +102,10 @@ mps_pal <- function(palette = "primary", reverse = FALSE, ...)  {
 
 #' Color Scale of MPS Colors for ggplot2
 #'
+#' @description
+#' This function allows a user to set a color scale based on MPS colors.
+#'
+#'
 #' @param palette     Character name of an MPS Palette. Valid options include:
 #' primary, secondary, dark, light, hot, warm, cold, cool, purples.
 #' @param discrete    Boolean for whether aesthetic is discrete. Default is TRUE.
@@ -91,7 +114,7 @@ mps_pal <- function(palette = "primary", reverse = FALSE, ...)  {
 #'
 #' @export
 #'
-scale_color_mps <- function(palette = "primary", discrete = TRUE,
+scale_color_mps <- function(palette = "standard", discrete = TRUE,
                             reverse = FALSE, ...) {
   pal <- mps_pal(palette = palette, reverse = reverse)
 
@@ -107,6 +130,9 @@ scale_color_mps <- function(palette = "primary", discrete = TRUE,
 
 #' Fill scale of MPS colors for ggplot2
 #'
+#' @description
+#' This function allows a user to set a fill scale based on MPS colors.
+#'
 #' @param palette     Character name of an MPS Palette. Valid options include:
 #' primary, secondary, dark, light, hot, warm, cold, cool, purples.
 #' @param discrete    Boolean for whether aesthetic is discrete. Default is TRUE.
@@ -115,7 +141,7 @@ scale_color_mps <- function(palette = "primary", discrete = TRUE,
 #'
 #' @export
 #'
-scale_fill_mps <- function(palette = "primary", discrete = TRUE,
+scale_fill_mps <- function(palette = "standard", discrete = TRUE,
                             reverse = FALSE, ...) {
   pal <- mps_pal(palette = palette, reverse = reverse)
 

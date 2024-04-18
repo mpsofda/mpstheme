@@ -1,0 +1,139 @@
+%% Load required LaTeX packages
+\usepackage{sectsty}	% Section styling
+\usepackage{xcolor}	% Color and color definitions
+\usepackage{fontspec}	% Load fonts
+\usepackage{fancyhdr}	% Package for setting headers and footers
+\usepackage{paralist}	% Package for correcting spacing in lists
+\usepackage{framed}	% Package for block quote styling
+\usepackage{fancyvrb}	% Package for code block styling
+\usepackage{fvextra}	% Package for wrapping code blocks
+\usepackage{titlesec}	% Sub-sub-sub section styling 
+\usepackage{tcolorbox}	% Warning, Example, and Note block styling
+\usepackage{ragged2e}	% Less strict ragged-right paragraph formatting
+
+%% Set document font
+\setmainfont{Poppins}
+
+%% Set line spacing
+\linespread{1.25}
+
+%% Set list spacing
+\let\itemize\compactitem
+\let\enumerate\compactenum\setlength\plpartopsep{-5pt}
+
+%% Define MPS Color Palette
+\definecolor{mpsyellow}{RGB}{253,185,19}
+\definecolor{mpsblue}{RGB}{82,97,172}
+\definecolor{mpsred}{RGB}{190,51,38}
+\definecolor{mpsteal}{RGB}{0,149,143}
+\definecolor{mpsorange}{RGB}{244,123,32}
+\definecolor{mpswine}{RGB}{89,31,99}
+\definecolor{mpsgreen}{RGB}{159,166,23}
+\definecolor{mpsdarkblue}{RGB}{57,68,120}
+\definecolor{mpspurple}{RGB}{155,121,161}
+\definecolor{mpsgray}{RGB}{120,120,120}
+
+%% Set Section and Subsection Font Style
+\sectionfont{\color{black}}	% Level 1 [#] headings
+\subsectionfont{\color{mpsdarkblue}\normalfont}	% Level 2 [##] headings
+\subsubsectionfont{\color{mpsgray}}	% Level 3 [###] headings
+\titleformat{\paragraph}[hang]{\normalfont\normalsize\color{mpsgray}}{}{1em}{}	% Level 4 [####] headings
+\titlespacing*{\paragraph}{.5cm}{2\baselineskip}{.66\baselineskip}		% Level 4 [####] headings continued
+
+%% Header and Footer Defined
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\setlength\headheight{25pt}
+\fancyhead[R]{\includegraphics[width=4cm]{logo.png}}
+\fancyfoot[R]{\color{mpswine}{Office of Operational and Financial Data Analytics} \color{mpsyellow}{\textbar}\color{mpswine}{ \thepage}}
+
+%% New verbatim and quote environments
+% Block Quotes Defined
+\let\oldquote=\quote
+\let\endoldquote=\endquote
+\renewenvironment{quote}{
+	\colorlet{shadecolor}{mpspurple!10}
+	\begin{shaded*}
+	\begin{oldquote}\itshape%
+}{%
+	\end{oldquote}%
+	\end{shaded*}%
+}
+
+% Code Block Quotes Defined
+\renewenvironment{verbatim}{%
+	\VerbatimEnvironment
+	\colorlet{shadecolor}{mpsyellow!5}
+	\begin{shaded*}
+	\begin{Verbatim}[breaklines]}{%
+	\end{Verbatim}%
+	\end{shaded*}%
+}
+
+%% Call-out box definitions
+% Note Box defined
+\newtcbox{\notebox}{
+	tcbox width=auto limited,
+	grow to left by=-1cm,
+	grow to right by=-1cm,
+	colback=mpsblue!5!white,
+	colframe=mpsblue!75!black,
+	fonttitle=\bfseries,
+	title=NOTE}
+
+% Warning Box defined
+\newtcbox{\warnbox}{
+	tcbox width=auto limited,
+	grow to left by=-1cm,
+	grow to right by=-1cm,
+	colback=mpsred!5!white,
+	colframe=mpsred!75!black,
+	fonttitle=\bfseries,
+	title=WARNING}
+
+% Important Box defined
+\newtcbox{\impbox}{
+	tcbox width=auto limited,
+	grow to left by=-1cm,
+	grow to right by=-1cm,
+	colback=mpsorange!5!white,
+	colframe=mpsorange!75!black,
+	fonttitle=\bfseries,
+	title=IMPORTANT}
+
+% Special Box defined
+\newtcbox{\specbox}[1]{
+	tcbox width=auto limited,
+	grow to left by=-1cm,
+	grow to right by=-1cm,
+	colback=mpswine!5!white,
+	colframe=mpswine!75!black,
+	fonttitle=\bfseries,
+	title={#1}}
+
+%% New table and plot caption environment
+% Table caption command
+\newcommand{\tblcap}[1]{
+	\vspace*{-25pt}
+	\begin{center}
+	\itshape
+	\textcolor{mpsblue}{#1}
+	\normalfont
+	\end{center}}
+
+% Plot caption command
+\newcommand{\pltcap}[1]{
+	\vspace*{-25pt}
+	\begin{center}
+	\itshape
+	\textcolor{mpsblue}{#1}
+	\normalfont
+	\end{center}}
+
+%% Set \AtBeginDocument arguments
+% Remove the default title/author/date block
+\AtBeginDocument{\let\maketitle\relax}
+
+% Set Ragged Right paragraph justification
+\AtBeginDocument{\RaggedRight}
