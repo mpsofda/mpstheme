@@ -12,7 +12,7 @@
 #'
 #' @export
 #'
-theme_ofda <- function(pri.color = mps_cols("wine"),
+theme_mps <- function(pri.color = mps_cols("wine"),
                        sec.color = mps_cols("light wine"),
                        ter.color = "gray40",
                        ...) {
@@ -65,7 +65,7 @@ theme_ofda <- function(pri.color = mps_cols("wine"),
 #'
 #' @export
 #'
-theme_ofda_donut <- function(pri.color = mps_cols("wine"),
+theme_mps_donut <- function(pri.color = mps_cols("wine"),
                        sec.color = mps_cols("light wine"),
                        ter.color = "gray40",
                        ...) {
@@ -116,7 +116,7 @@ theme_ofda_donut <- function(pri.color = mps_cols("wine"),
 #'
 #' @export
 #'
-title_ofda <- function(title = "Some Title", color = mps_cols("wine")) {
+title_mps <- function(title = "Some Title", color = mps_cols("wine")) {
   ggplot() +
     geom_blank() +
     labs(title = title) +

@@ -10,8 +10,8 @@ header-includes:
   - \input{preamble.tex}
 params:
   docauthor:   "Morrigan Hughes"   # Author for inclusion in final doc text
-  doctitle:    "R Markdown Template"    # Title for inclusion in final doc text
-  docsubtitle: "MPS Theme Package Demo" # Subtitle for inclusion in final doc text
+  doctitle:    "MPS Theme Package Demo"    # Title for inclusion in final doc text
+  docsubtitle: "For R Markdown PDF Templates" # Subtitle for inclusion in final doc text
 ---
 
 ```{r setup, include=FALSE}
@@ -34,27 +34,33 @@ knitr::opts_chunk$set(
 )
 
 ## Required Packages for Template
+require(mpstheme)
+
+# Extrafont for viewing plots inline with markdown document
 require(extrafont)
 loadfonts(device = "all", quiet = TRUE)
+
+# Showtext allows the new fonts to be used in the outputs
 require(showtext)
 showtext_auto()
-showtext_opts(dpi = 300)      #'*Use this when knitting to pdf or html*
-#showtext_opts(dpi = 96)       #'*Use this for inline viewing of plots*
-require(ggplot2)
-require(mpstheme)
-require(scales)
+
+#'*Use the below when knitting to pdf or html*
+showtext_opts(dpi = 300)
+
+#'*Use this for inline viewing of plots*
+#showtext_opts(dpi = 96)
 
 ## Required Packages for Document
 require(tidyverse)
 ```
 ```{r title-chunk, fig.height=.5, fig.width=6.5, fig.align='center'}
-title_ofda(title = params$doctitle)
+title_mps(title = params$doctitle)
 ```
 ``` {=latex}
 % SUBTITLE CHUNK
 \vspace{-30pt}
 \fontspec{Poppins SemiBold}\begin{center}\large
-\text{\color{gray}{`r paste0(params$docsubtitle)`}}\normalfont\end{center}
+\text{\color{mpsgray}{`r paste0(params$docsubtitle)`}}\normalfont\end{center}
 
 % AUTHOR AND DATE CHUNK
 \begin{minipage}{0.7\textwidth}
@@ -63,7 +69,7 @@ title_ofda(title = params$doctitle)
 \end{minipage}
 \begin{minipage}{0.3\textwidth}
 \fontspec{Poppins SemiBold}\flushright
-\text{\color{gray}{`r format(Sys.Date(), "%B %Y")`}}\normalfont
+\text{\color{mpsgray}{`r format(Sys.Date(), "%B %Y")`}}\normalfont
 \end{minipage}
 \normalfont
 ```
@@ -83,8 +89,7 @@ This is ~~strikethrough~~ text.
 ### Long Paragraphs:
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi a odio in purus dapibus auctor. Aliquam dictum, diam sed molestie vestibulum, tellus lectus consequat magna, vel condimentum eros lectus et mauris. Duis quis rhoncus neque. Suspendisse ac eros in nisl ultricies egestas ac in metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque et ex lorem. Pellentesque commodo purus id justo malesuada, quis venenatis mi fringilla. Nam egestas ipsum nisl, placerat fringilla mauris pretium quis. Nam fermentum, mi sollicitudin suscipit efficitur, orci nisl accumsan felis, sit amet dapibus diam ante nec eros. Donec malesuada pretium mi, sed commodo massa auctor vel. Nunc blandit nisi dolor, ut pulvinar erat rhoncus luctus. Aliquam id ornare nunc. Vivamus dignissim, risus eu dictum gravida, enim ipsum euismod lorem, vel consectetur lectus orci at tellus.
 
-Suspendisse neque libero, tristique ut ante in, rhoncus aliquet lacus. Curabitur aliquam sapien diam, sit amet sollicitudin arcu faucibus ac. Nullam sed nisl tincidunt, sagittis lectus porta, aliquam arcu. In id imperdiet orci, ac facilisis est. In pretium pretium tortor, in commodo nisi vestibulum quis. Pellentesque eget gravida turpis. Integer sagittis, urna non mollis dapibus, erat felis vulputate ipsum, eu malesuada ligula augue nec nulla.
-
+\newpage
 ## R Code Chunk:
 ```{r demo-chunk, echo=TRUE}
 summary(mtcars$mpg)
@@ -99,11 +104,16 @@ summary(mtcars$mpg)
 summary(mtcars$mpg)
 ```
 
+## R Code blocks with `eval=FALSE`
+``` {r noneval, eval=FALSE, echo=TRUE}
+summary(mtcars$mpg)
+```
+
 ## Inline Code
 You can use `scale_color_mps()` with your plots now!
 
 ## Special notes, warnings, and other callouts
-Use `\notebox{Some Note}`, `\warnbox{Some warning}`, `\impbox{Some important note}`, and `\specbox{Box Title}{Box Content}` for the special block notes and warnings seen below:
+Use `\notebox{Some Note}`, `\warnbox{Some warning}`, `\impbox{Something important}`, and `\specbox{Box Title}{Box Content}` for the special block notes and warnings seen below:
 
 ### Notes
 ```
@@ -192,9 +202,9 @@ There are, as of `r format(Sys.Date(), "%d-%b-%Y")`, **8** user-available `ggplo
 * `mps_cols()`
 * `scale_color_mps()`
 * `scale_fill_mps()`
-* `theme_ofda()`
-* `theme_ofda_donut()`
-* `title_ofda()`
+* `theme_mps()`
+* `theme_mps_donut()`
+* `title_mps()`
 * `mps_fonts()`
 * `geom_label_mps()`
 
@@ -231,16 +241,16 @@ p + scale_color_mps(palette = "primary", discrete = TRUE)
 ```
 `r mps_caption("Default ggplot theme with MPS primary colors.", "plots")`
 
-This already looks much more like an MPS-style, but it's still very much a basic `ggplot` look. So, let's change that by adding `theme_ofda()`. **NOTE** In the setup chunk of your document, you need to have `showtext_auto()` included after loading the `showtext` package. 
+This already looks much more like an MPS-style, but it's still very much a basic `ggplot` look. So, let's change that by adding `theme_mps()`. **NOTE** In the setup chunk of your document, you need to have `showtext_auto()` included after loading the `showtext` package. 
 
 \newpage
 ``` {r ggplot-chunk-4, echo = TRUE}
 p + scale_color_mps(palette = "primary", discrete = TRUE) +
-  theme_ofda()
+  theme_mps()
 ```
 `r mps_caption("Default MPS theme with MPS primary colors.", "plots")`
 
-This is much better! So, what exactly is `theme_ofda()` doing to the base `ggplot()` theme? Well, see below for all the changes.
+This is much better! So, what exactly is `theme_mps()` doing to the base `ggplot()` theme? Well, see below for all the changes.
 ``` {r ggplot-theme-explain, echo = TRUE, eval = FALSE}
   theme(
     # Set all text-based elements of the theme
@@ -261,17 +271,17 @@ This is much better! So, what exactly is `theme_ofda()` doing to the base `ggplo
     legend.title = element_text(size = 11, color = sec.color),
     legend.text = element_text(size = 9, color = ter.color),
     # Plot aesthetics
-    plot.background = element_rect(color = pri.color, linewidth = 1),
+    plot.background = element_roundrect(color = pri.color, size = 1, r = .05),
     plot.margin = margin(.125, .125, .125, .125, unit = "inches"),
     # Panel aesthetics
     panel.background = element_rect(fill = "white"),
-    panel.border = element_rect(fill = NA, color = ter.color),
+    panel.border = element_roundrect(fill = NA, color = ter.color, r = .03),
     panel.grid = element_line(color = "gray93", linewidth = 0.5, linetype = 1),
     panel.grid.minor = element_blank(),
     # Legend aesthetics
     legend.key = element_rect(fill = "white"),
     # Facet aesthetics
-    strip.background = element_rect(fill = pri.color, color = pri.color),
+    strip.background = element_roundrect(fill = pri.color, color = pri.color, r = .03),
     strip.text = element_text(size = 9, face = "italic", color = "white"),
     ...
   )

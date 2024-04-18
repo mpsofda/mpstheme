@@ -1,0 +1,76 @@
+---
+title: "R Markdown Template"                 # Metadata title
+author: "Morrigan Hughes"                  # Metadata author
+date: 'r Sys.Date()'              # Metadata date
+output: 
+  pdf_document:
+    latex_engine: lualatex
+    highlight: mpstheme.theme
+header-includes:
+  - \input{preamble.tex}
+params:
+  docauthor:   "Morrigan Hughes"   # Author for inclusion in final doc text
+  doctitle:    "R Markdown Template"    # Title for inclusion in final doc text
+  docsubtitle: "PDF Template for MPS Reports" # Subtitle for inclusion in final doc text
+---
+
+```{r setup, include=FALSE}
+## Knitr Chunk Options
+# Add number lines to source code blocks
+knitr::opts_hooks$set(
+  numberLines = function(options) {
+    attrs <- paste0("attr.", options$numberLines)
+    options[attrs] <- lapply(options[attrs], c, ".numberLines")
+    options
+  }
+)
+
+# Rest of the knitr chunk options
+knitr::opts_chunk$set(
+  numberLines = "source",
+  echo = FALSE,
+  dev = "png",
+  dpi = 300
+)
+
+## Required Packages for Template
+require(mpstheme)
+
+# Extrafont for viewing plots inline with markdown document
+require(extrafont)
+loadfonts(device = "all", quiet = TRUE)
+
+# Showtext allows the new fonts to be used in the outputs
+require(showtext)
+showtext_auto()
+
+#'*Use the below when knitting to pdf or html*
+showtext_opts(dpi = 300)
+
+#'*Use this for inline viewing of plots*
+#showtext_opts(dpi = 96)
+
+## Required Packages for Document
+
+```
+```{r title-chunk, fig.height=.5, fig.width=6.5, fig.align='center'}
+title_mps(title = params$doctitle)
+```
+``` {=latex}
+%% DO NOT CHANGE ANYTHING IN THIS CHUNK!
+% SUBTITLE CHUNK
+\vspace{-30pt}
+\fontspec{Poppins SemiBold}\begin{center}\large
+\text{\color{mpsgray}{`r paste0(params$docsubtitle)`}}\normalfont\end{center}
+
+% AUTHOR AND DATE CHUNK
+\begin{minipage}{0.7\textwidth}
+\text{\color{gray}{Written By: }}
+\textsc{\color{mpsblue}{`r paste0(params$docauthor)`}}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+\fontspec{Poppins SemiBold}\flushright
+\text{\color{mpsgray}{`r format(Sys.Date(), "%B %Y")`}}\normalfont
+\end{minipage}
+\normalfont
+```

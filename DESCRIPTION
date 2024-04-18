@@ -13,5 +13,6 @@ Imports:
     ggfun,
     ggplot2,
     grDevices,
+    scales,
     showtext,
     sysfonts
