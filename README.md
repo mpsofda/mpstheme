@@ -82,3 +82,7 @@ Which would you like to update?
 12: ggplot2 (3.4.4 -> 3.5.0) [CRAN]
 ```
 You should update all packages.
+
+## Future Development
+
+We plan to develop the R Markdown templates to allow for both `HTML` and `.doc` outputs as well. That development won't begin for several weeks to months while we continue our work on higher priority projects. 
