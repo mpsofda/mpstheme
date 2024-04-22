@@ -60,3 +60,25 @@ require(devtools)
 install_github("mpsofda/mpstheme")
 ```
 
+You may get notification that some of your other packages are out of date:
+```r
+> install_github("mpsofda/mpstheme")
+Downloading GitHub repo mpsofda/mpstheme@HEAD
+These packages have more recent versions available.
+It is recommended to update all of them.
+Which would you like to update?
+
+ 1: All                            
+ 2: CRAN packages only             
+ 3: None                           
+ 4: rlang   (1.1.2 -> 1.1.3) [CRAN]
+ 5: glue    (1.6.2 -> 1.7.0) [CRAN]
+ 6: cli     (3.6.1 -> 3.6.2) [CRAN]
+ 7: vctrs   (0.6.4 -> 0.6.5) [CRAN]
+ 8: fansi   (1.0.5 -> 1.0.6) [CRAN]
+ 9: munsell (0.5.0 -> 0.5.1) [CRAN]
+10: withr   (2.5.2 -> 3.0.0) [CRAN]
+11: scales  (1.2.1 -> 1.3.0) [CRAN]
+12: ggplot2 (3.4.4 -> 3.5.0) [CRAN]
+```
+You should update all packages.
