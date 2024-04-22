@@ -1,18 +1,18 @@
 Package: mpstheme
-Title: MPS Colors and ggplot2 Themes
+Title: MPS Plot and Report Themes
 Version: 0.0.0.9000
 Authors@R: 
     person("Morrigan", "Hughes", , "morrigan.hughes@mpls.k12.mn.us", role = c("aut", "cre"))
-Description: Adds functions to call on MPS colors, color scales and gradients,
-    and new custom MPS theme for ggplot2 plots.
+Description: Adds functions to call on MPS colors, color scales and
+    gradients, and new custom MPS theme for ggplot2 plots. Also adds a number of 
+    R Markdown templates, along with a demonstration of the new functions.
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
 Imports: 
     ggfun,
     ggplot2,
     grDevices,
-    scales,
     showtext,
     sysfonts
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1

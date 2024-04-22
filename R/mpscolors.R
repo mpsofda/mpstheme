@@ -107,7 +107,7 @@ mps_pal <- function(palette = "primary", reverse = FALSE, ...)  {
 #'
 #'
 #' @param palette     Character name of an MPS Palette. Valid options include:
-#' primary, secondary, dark, light, hot, warm, cold, cool, purples.
+#' primary, secondary, dark, light, hot, warm, mild, frigid, cold, cool, all, and colorful.
 #' @param discrete    Boolean for whether aesthetic is discrete. Default is TRUE.
 #' @param reverse     Boolean for whether to reverse palette. Default is FALSE.
 #' @param ...         Additional args passed to discrete_scale() or scale_color_gradientn()
@@ -134,7 +134,7 @@ scale_color_mps <- function(palette = "standard", discrete = TRUE,
 #' This function allows a user to set a fill scale based on MPS colors.
 #'
 #' @param palette     Character name of an MPS Palette. Valid options include:
-#' primary, secondary, dark, light, hot, warm, cold, cool, purples.
+#' primary, secondary, dark, light, hot, warm, mild, frigid, cold, cool, all, and colorful.
 #' @param discrete    Boolean for whether aesthetic is discrete. Default is TRUE.
 #' @param reverse     Boolean for whether to reverse palette. Default is FALSE.
 #' @param ...         Additional args passed to discrete_scale() or scale_color_gradientn()

@@ -45,7 +45,7 @@ theme_mps <- function(pri.color = mps_cols("wine"),
     # Legend aesthetics
     legend.key = element_rect(fill = "white"),
     # Facet aesthetics
-    strip.background = element_roundrect(fill = pri.color, color = pri.color, r = .03),
+    strip.background = element_roundrect(fill = pri.color, color = pri.color, r = .125),
     strip.text = element_text(size = 9, face = "italic", color = "white"),
     ...
   )

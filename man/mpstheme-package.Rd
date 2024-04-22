@@ -4,9 +4,9 @@
 \name{mpstheme-package}
 \alias{mpstheme}
 \alias{mpstheme-package}
-\title{mpstheme: MPS Colors and ggplot2 Themes}
+\title{mpstheme: MPS Plot and Report Themes}
 \description{
-Adds functions to call on MPS colors, color scales and gradients, and new custom MPS theme for ggplot2 plots.
+Adds functions to call on MPS colors, color scales and gradients, and new custom MPS theme for ggplot2 plots. Also adds a number of R Markdown templates, along with a demonstration of the new functions.
 }
 \author{
 \strong{Maintainer}: Morrigan Hughes \email{morrigan.hughes@mpls.k12.mn.us}

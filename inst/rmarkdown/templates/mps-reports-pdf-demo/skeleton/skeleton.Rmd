@@ -1,0 +1,724 @@
+---
+title: "R Markdown Template Demo"                 # Metadata title
+author: "Morrigan Hughes"                  # Metadata author
+date: 'r Sys.Date()'              # Metadata date
+output: 
+  pdf_document:
+    latex_engine: lualatex
+    highlight: mpstheme.theme
+header-includes:
+  - \input{preamble.tex}
+params:
+  docauthor:   "Morrigan Hughes"   # Author for inclusion in final doc text
+  doctitle:    "R Markdown Template Demo"    # Title for inclusion in final doc text
+  docsubtitle: "Demonstration of Package Functions" # Subtitle for inclusion in final doc text
+---
+
+```{r setup, include=FALSE}
+## Knitr Chunk Options
+# Add number lines to source code blocks
+knitr::opts_hooks$set(
+  numberLines = function(options) {
+    attrs <- paste0("attr.", options$numberLines)
+    options[attrs] <- lapply(options[attrs], c, ".numberLines")
+    options
+  }
+)
+
+# Rest of the knitr chunk options
+knitr::opts_chunk$set(
+  numberLines = "source",
+  echo = TRUE,
+  dev = "png",
+  dpi = 300
+)
+
+## Required Packages for Template
+require(mpstheme)
+
+# Extrafont for viewing plots inline with markdown document
+require(extrafont)
+loadfonts(device = "all", quiet = TRUE)
+
+# Showtext allows the new fonts to be used in the outputs
+require(showtext)
+showtext_auto()
+
+#'*Use the below when knitting to pdf or html*
+showtext_opts(dpi = 300)
+
+#'*Use the below for inline viewing of plots*
+#showtext_opts(dpi = 96)
+
+## Required Packages for Document
+require(tidyverse)
+require(cowplot)
+require(scales)
+require(kableExtra)
+```
+```{r title-chunk, fig.height=.5, fig.width=6.5, fig.align='center', echo=FALSE}
+title_mps(title = params$doctitle)
+```
+``` {=latex}
+%% DO NOT CHANGE ANYTHING IN THIS CHUNK!
+% SUBTITLE CHUNK
+\vspace{-30pt}
+\fontspec{Poppins SemiBold}\begin{center}\large
+\text{\color{mpsgray}{`r paste0(params$docsubtitle)`}}\normalfont\end{center}
+
+% AUTHOR AND DATE CHUNK
+\begin{minipage}{0.7\textwidth}
+\text{\color{gray}{Written By: }}
+\textsc{\color{mpsblue}{`r paste0(params$docauthor)`}}
+\end{minipage}
+\begin{minipage}{0.3\textwidth}
+\fontspec{Poppins SemiBold}\flushright
+\text{\color{mpsgray}{`r format(Sys.Date(), "%B %Y")`}}\normalfont
+\end{minipage}
+\normalfont
+```
+``` {r color-palette-setup, echo=FALSE}
+## MPS Color Palettes for plotting to ggplot
+standard <- tibble(
+  color = as_factor(mps_cols("red", "orange", "yellow", "green", "teal",
+                             "blue", "wine")),
+  palette = "standard",
+  color_name = c("red", "orange", "yellow", "green", "teal",
+                 "blue", "wine")
+)
+
+dark <- tibble(
+  color = as_factor(mps_cols("dark red", "dark orange", "dark yellow",
+                             "dark green", "dark teal", "dark blue", "dark wine")),
+  palette = "dark",
+  color_name = c("dark red", "dark orange", "dark yellow",
+                 "dark green", "dark teal", "dark blue", "dark wine")
+)
+
+light <- tibble(
+  color = as_factor(mps_cols("light red", "light orange", "light yellow",
+                             "light green", "light teal", "light blue", "light wine")),
+  palette = "light",
+  color_name = c("light red", "light orange", "light yellow",
+                 "light green", "light teal", "light blue", "light wine")
+)
+
+hot <- tibble(
+  color = as_factor(mps_cols("dark red", "dark orange", "dark yellow")),
+  palette = "hot",
+  color_name = c("dark red", "dark orange", "dark yellow")
+)
+
+warm <- tibble(
+  color = as_factor(mps_cols("red", "orange", "yellow")),
+  palette = "warm",
+  color_name = c("red", "orange", "yellow")
+)
+
+mild <- tibble(
+  color = as_factor(mps_cols("light red", "light orange", "light yellow")),
+  palette = "mild",
+  color_name = c("light red", "light orange", "light yellow")
+)
+
+frigid <- tibble(
+  color = as_factor(mps_cols("dark green", "dark teal", "dark blue", "dark wine")),
+  palette = "frigid",
+  color_name = c("dark green", "dark teal", "dark blue", "dark wine")
+)
+
+
+cold <- tibble(
+  color = as_factor(mps_cols("green", "teal", "blue", "wine")),
+  palette = "cold",
+  color_name = c("green", "teal", "blue", "wine")
+)
+
+cool <- tibble(
+  color = as_factor(mps_cols("light green", "light teal", "light blue", "light wine")),
+  palette = "cool",
+  color_name = c("light green", "light teal", "light blue", "light wine")
+)
+
+
+colorful <- tibble(
+  color = as_factor(mps_cols("dark red", "red", "light red", "dark orange", 
+                             "orange", "light orange", "dark yellow", "yellow", 
+                             "light yellow", "dark green", "green", "light green",
+                             "dark teal", "teal", "light teal", "dark blue", 
+                             "blue", "light blue", "dark wine", "wine", "light wine",
+                             "dark gray", "gray", "light gray")), 
+  palette = "colorful",
+  color_name = c("dark red", "red", "light red", "dark orange", 
+                 "orange", "light orange", "dark yellow", "yellow", 
+                 "light yellow", "dark green", "green", "light green",
+                 "dark teal", "teal", "light teal", "dark blue", 
+                 "blue", "light blue", "dark wine", "wine", "light wine",
+                 "dark gray", "gray", "light gray"))
+
+
+palettes <- bind_rows(dark, standard, light, hot, warm, mild, frigid, cold, cool, colorful) %>% 
+  mutate(
+    palette = as_factor(palette)
+  )
+
+rm(standard, dark, light, hot, warm, mild, frigid, cold, cool, colorful)
+```
+# Summary
+
+The new \space `mpstheme` \space package allows users to readily and easily format any plot to MPS brand guidelines, and also includes PDF templates for scripted, scheduled, or ad-hoc reporting to stakeholders. A number of new **R** and \space \textbf{\LaTeX} \space functions are introduced with this package and this document will cover them all in addition to a brief introduction to some base \space \textbf{\LaTeX} \space commands, functions, and environments. 
+
+``` {r new-functions, eval = FALSE, echo = TRUE}
+
+### New R Functions
+## ggplot2 specific:
+theme_mps()                # Adds the MPS theme to a ggplot object
+theme_mps_donut()          # Adds the MPS donut plot theme to a ggplot object
+title_mps("title")         # Adds the title to an R Markdown document by creating a ggplot object
+geom_label_mps()           # Adds data labeling to a ggplot plot
+mps_cols(color)            # For use with scale_*_manual() to select specific MPS colors
+scale_color_mps(palette)   # Adds the requested palette to the color scale. See Figure 1
+scale_fill_mps(palette)    # Adds the requested palette to the fill scale. See Figure 1
+
+
+## R Markdown specific
+# R Functions:
+mps_caption(caption, type) # Adds the caption below a figure, table, or plot
+mps_fonts()                # Loads the fonts if not autoloaded by require(mpstheme)
+mps_tcolor(color, text)    # Change the color of text in an R Markdown doc
+
+# LaTeX Functions
+\notebox{content}          # Note box
+\warnbox{content}          # Warning note box
+\impbox{content}           # Important note box
+\specbox{title}{content}   # Like previous boxes, but allows you to change box title.
+```
+
+`r mps_caption("New functions included with mpstheme.", "figures")`
+
+\newpage
+
+# Demonstration of common plots used by MPS REA and OFDA
+## MPS Color Palettes
+``` {r color-palettes, echo=FALSE, fig.height=6}
+palplot <- palettes %>% 
+  filter(palette != "colorful") %>% 
+  ggplot() +
+  geom_tile(aes(x = color, y = palette, fill = color), height = 1) +
+  scale_fill_identity() +
+  theme_mps() +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank(),
+        plot.background = element_blank()) +
+  geom_text(
+    aes(x = color, y = palette, label = color),
+    angle = 90,
+    color = "white",
+    fontface = "bold"
+  ) +
+  facet_wrap(~palette, scales = "free", ncol = 3) +
+  labs(
+    title = "MPS Color Palettes",
+    x = NULL,
+    y = NULL
+  )
+
+colplot <- palettes %>% 
+  filter(palette == "colorful") %>% 
+  ggplot() +
+  geom_tile(aes(x = color, y = palette, fill = color), height = 1) +
+  scale_fill_identity() +
+  theme_mps() +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank(),
+        plot.background = element_blank()) +
+  geom_text(
+    aes(x = color, y = palette, label = color),
+    angle = 90,
+    color = "white",
+    fontface = "bold"
+  ) +
+  facet_wrap(~palette, scales = "free") +
+  labs(
+    x = NULL,
+    y = NULL,
+    caption = "NOTE: Teal color currently under review."
+  )
+
+plot_grid(palplot, colplot, nrow = 2, ncol = 1, rel_heights = c(.7,.3))
+
+```
+`r mps_caption("MPS color palettes", "figures")`
+
+\newpage
+
+## Data Setup
+For demonstrating the various plots and functions included in the `mpstheme` package, we first need to setup our data for each of the different plots we're going to create. 
+``` {r data-creation}
+## Data for Line Chart
+# Using inbuilt `airquality` dataset
+aq <- airquality %>% 
+  group_by(Month) %>% 
+  summarise(
+    avg_ozone = mean(Ozone, na.rm = TRUE),
+    avg_wind = mean(Wind, na.rm = TRUE),
+    avg_temp = mean(Temp, na.rm = TRUE),
+    .groups = "drop"
+  ) %>% 
+  gather(avg_ozone, avg_wind, avg_temp, 
+         key = "variable", value = "measurement")
+
+## Data for combined line and bar chart
+# Leaving year as numeric will allow for scale_*_continuous arguments
+lb <- tibble(
+  year = c(2018:2023),
+  group = c(.45, .47, .48, .46, .42, .41),
+  overall = c(.6, .59, .6, .52, .51, .5)
+)
+
+## Data for the grouped vertical or horizontal bar plot
+vb <- tibble(
+  group = c("Group 1", "Group 2", "Group 3", "Group 4", "Group 5", "Group 6"),
+  year_1 = c(.45, .34, .78, .9, .23, .25),
+  year_2 = c(.56, .78, .9, .35, .26, .67),
+  year_3 = c(.72, .8, .87, .45, .33, .5)
+) %>% 
+  gather(year_1, year_2, year_3, 
+         key = "year", value = "result")
+
+## Data for the stacked vertical bar plot
+vbs <- tibble(
+  Group = c("Group 1", "Group 2", "Group 3", "Group 4", "Group 5", "Group 6"),
+  "On Track" = c(.5, .55, .6, .55, .57, .52),
+  Focus = c(.1, .07, .06, .08, .09, .1),
+  Priority = c(.4, .38, .34, .37, .34, .38)
+) %>% 
+  gather("On Track", Focus, Priority, 
+         key = "On_Track_Status", value = "measurement")
+# Factor the On_Track_Status values for plotting
+vbs$On_Track_Status <- factor(vbs$On_Track_Status, 
+                              levels = c("On Track", "Focus", "Priority"))
+
+## Data for the stacked horizontal bar plot
+hbs <- tibble(
+  Question = c("Question 1", "Question 2", "Question 3", 
+               "Question 4", "Question 5"),
+  "Strongly Disagree" = c(.1, .09, .08, .07, .06),
+  Disagree = c(.2, .21, .22, .23, .24),
+  Neutral = c(.1, .11, .12, .13, .14),
+  Agree = c(.3, .29, .28, .27, .26),
+  "Strongly Agree" = c(.3, .3, .3, .3, .3)
+) %>% 
+  gather("Strongly Disagree", Disagree, Neutral, Agree, "Strongly Agree",
+         key = "Answer", value = "Percentage")
+# Factor the Answer values for plotting
+hbs$Answer <- factor(hbs$Answer, 
+                     levels = c("Strongly Agree", "Agree", "Neutral", 
+                                "Disagree", "Strongly Disagree"))
+
+## Donut plot with one main point to highlight
+dnt1 <- tibble(
+  group = c("Group 1", "Group 2"),
+  percent = c(.9, .1)
+)
+# Select the top percent for the annotation geom
+dnt1_anno <- dnt1 %>% 
+  top_n(1, percent)
+
+## Donut plot with multiple groups
+dnt2 <- tibble(
+  Ethnicity = as_factor(c("African American", "American Indian", "Asian", 
+                          "Hispanic", "White", "Two or More")),
+  Percent = c(.1, .1, .2, .15, .4, .05)
+)
+```
+`r mps_caption("Setting up the data for the plots", "figures")`
+\newpage
+
+## Line Chart
+``` {r line-chart, echo=FALSE}
+ggplot(aq, aes(Month, measurement, color = variable)) +
+  ## Add the required geoms
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  ## theme_mps to apply the MPS theme
+  theme_mps() +
+  ## Manually set the colors from MPS official colors
+  ## Use breaks = to rearrange the order of items in the legend
+  scale_color_manual(values = mps_cols("light red", "light teal", "light wine"),
+                     breaks = c("avg_temp", "avg_ozone", "avg_wind")) +
+  ## Use scale_x_* to set the labels to the month name
+  # Use expand to add some padding to the x axis
+  scale_x_continuous(labels = unique(month(aq$Month, label = TRUE)),
+                     expand = expansion(mult = c(0.1, 0.1))) +
+  ## Add the labels!
+  # Position_nudge() allows for the labels to be moved above the lines
+  geom_label_mps(mapping = aes(label = round(measurement, digits = 1), 
+                               y = measurement, color = variable),
+                 position = position_nudge(y = 5)) +
+  ## Adjust the zoom of the plot to give more room to the labels
+  # This could be done in a scale_y_* call if we had made one
+  coord_cartesian(ylim = c(min(aq$measurement)*.9, max(aq$measurement)*1.1)) +
+  ## Add titles, subtitles, and captions
+  labs(
+    title = "New York Air Quality Measurements",
+    subtitle = "May to Sep 1973",
+    caption = "Source: Base R `airquality` data set."
+  )
+```
+`r mps_caption("Line chart", "plots")`
+
+``` {r line-chart, eval=FALSE} 
+```
+\newpage 
+
+## Line and Bar Chart
+``` {r line-bar-chart, echo=FALSE}
+ggplot(lb) +
+  ## Add the three required geoms
+  # Adding a string to color and fill allows for the legend to be created
+  geom_line(aes(x = year, y = overall, color = "Overall"), linewidth = 1) +
+  geom_point(aes(x = year, y = overall, color = "Overall"), size = 2) +
+  geom_col(aes(x = year, y = group, fill = "Group"), color = "black", linewidth = .5) +
+  ## theme_mps applies the theme. 
+  # The optional argument moves the legend to the top.
+  theme_mps(legend.position = "top") +
+  ## Use labels = label_percent() to change the labels of the y axis
+  # Use expand = expansion() to force the y axis origin down to the x axis line
+  #     and to give room at the top of the y axis for the labels
+  scale_y_continuous(labels = label_percent(),
+                     expand = expansion(mult = c(0,0.1))) +
+  ## Use scale_x_continuous to show all labels of the x axis
+  scale_x_continuous(breaks = 2018:2023) +
+  ## Add our MPS colors
+  # Fill for the columns, color for the lines and points
+  scale_fill_manual(values = mps_cols("light wine")) +
+  scale_color_manual(values = mps_cols("light red")) +
+  ## Label the geom_line points; use position_nudge to adjust the labels vertically
+  geom_label_mps(mapping = aes(label = percent(overall), x = year, y = overall),
+                 position = position_nudge(y = .05),
+                 color = mps_cols("red")) + 
+  ## Label the geom_col columns; use position_stack to put labels in center of bars
+  geom_label_mps(mapping = aes(label = percent(group), x = year, y = group),
+                 position = position_stack(vjust = 0.5),
+                 color = mps_cols("wine")) +
+  ## Label the plot. Use color = NULL and fill = NULL to leave a simple legend
+  labs(
+    title = "Comparing Overall Scores to Group Scores",
+    caption = "Source: I made it up.",
+    color = NULL,
+    fill = NULL,
+    x = NULL,
+    y = "Percentage Passing"
+  )
+
+```
+`r mps_caption("Line and bar chart", "plots")`
+
+``` {r line-bar-chart, eval=FALSE} 
+```
+\newpage
+
+## Vertical Grouped Bars
+``` {r vertical-bars-dodge, echo=FALSE}
+ggplot(vb, aes(group, result, fill = year)) +
+  ## Add required geom
+  # position_dodge() tells the geom to make grouped bars
+  geom_col(position = position_dodge(width = 0.9), color = "black") +
+  ## Add the theme 
+  theme_mps() +
+  ## Set the y scale. Use label_percent() to make the axis formatted to percent
+  # Use expand = expansion() to adjust the y axis start and end points
+  scale_y_continuous(labels = label_percent(),
+                     expand = expansion(mult = c(0,0.1))) +
+  ## Set the labels for the bars. 
+  # The y = argument puts the bars at the middle of each bar. 
+  # Using vjust = would put the labels at the mid point of the group.
+  geom_label_mps(mapping = aes(label = percent(result), 
+                               y = result*0.5, 
+                               x = group, 
+                               color = year),
+                 position = position_dodge(width = 0.9),
+            #Reduce the text size to fit the bars
+                 size = 2.5,
+            #Reduce the label size to fit the bars
+                 label.size = 0.25,
+            #Remove the corner radius
+                 label.r = unit(0, "points"),
+            #Adjust padding to get everything to fit
+                 label.padding = unit(2, "points")) +
+  ## Use scale_*_mps() to set the color palette
+  # scale_*_manual() allows for specific choices of colors if preferred
+  scale_fill_mps("light") +
+  # scale_color_mps(palette = "hot") +
+  scale_color_mps("dark") +
+  ## Add the labels. x = and y = NULL removes the axis labels
+  labs(
+    title = "Data by Groups",
+    caption = "Source: I made it up.",
+    fill = "Year",
+    x = NULL,
+    y = "Percentage Meeting Standards"
+  )
+```
+`r mps_caption("Grouped vertical bar plot", "plots")`
+
+``` {r vertical-bars-dodge, eval=FALSE} 
+```
+\newpage
+
+## Vertical Stacked Bars
+``` {r vertical-bars-stack, echo=FALSE}
+ggplot(vbs, aes(Group, measurement, fill = On_Track_Status)) +
+  ## Add the required geom
+  geom_col(color = "black") +
+  ## scale_*_manual() to set specific colors for the statuses
+  scale_fill_manual(values = mps_cols("light blue", "light yellow", "light red")) +
+  scale_color_manual(values = mps_cols("dark blue", "dark yellow", "dark red")) +
+  ## Add the theme. Optional argument moves the legend to the top.
+  theme_mps(legend.position = "top") +
+  ## Set the scale to use labeled percentages, rather than decimals
+  scale_y_continuous(labels = label_percent(),
+                     expand = expansion(mult = c(0,0.025))) +
+  ## Now add the data labels
+  geom_label_mps(mapping = aes(label = percent(measurement, accuracy = 1), 
+                               y = measurement, 
+                               color = On_Track_Status),
+                 position = position_stack(vjust = 0.5)) +
+  ## And the plot labels
+  labs(
+    title = "Proportion Plot, Stacked 100% Bars",
+    caption = "Source: I made it up.",
+    fill = NULL,
+    x = NULL
+  )
+
+```
+`r mps_caption("Stacked vertical bar plot", "plots")`
+
+``` {r vertical-bars-stack, eval=FALSE} 
+```
+\newpage
+
+## Horizontal Stacked Bars
+``` {r horiz-bars-stack, echo=FALSE}
+ggplot(hbs, aes(Percentage, fct_rev(Question), fill = Answer)) +
+  ## Add the required geom
+  geom_col(color = "black") +
+  ## Use scale_x_* to set the labels to percentage and adjust the limits
+  scale_x_continuous(labels = label_percent(),
+                     expand = expansion(mult = c(0.01,0.02))) +
+  ## Use scale_*_manual to set the specific colors to use
+  # Use guide_legend(reverse = TRUE) to reverse the legend so it 
+  #     matches the order of the plot
+  scale_fill_manual(values = mps_cols("light wine", "light blue", "light gray", 
+                                      "light yellow", "light red"),
+                    guide = guide_legend(reverse = TRUE)) +
+  scale_color_manual(values = mps_cols("dark wine", "dark blue", "dark gray", 
+                                       "dark yellow", "dark red")) +
+  ## Add the theme with optional argument to move legend to the top
+  theme_mps(legend.position = "top") +
+  ## Add the labels, and use position_stack() to put the labels in the bars
+  geom_label_mps(mapping = aes(label = percent(Percentage, accuracy = 1), 
+                               y = Question, 
+                               color = Answer),
+                 position = position_stack(vjust = 0.5)) +
+  ## Add plot labels
+  labs(
+    title = "Answers to a Survey Question",
+    caption = "Source: I made it up.",
+    fill = NULL,
+    y = NULL,
+    x = NULL
+  )
+```
+`r mps_caption("Stacked horizontal bar plot", "plots")`
+
+``` {r horiz-bars-stack, eval=FALSE} 
+```
+\newpage
+
+## Donut Plots - Highlight
+``` {r donuts-highlight, echo=FALSE}
+ggplot(dnt1, aes(x = 1, y = percent, fill = group)) +
+  # Donut plots are just column plots translated to polar coords
+  geom_col(position = "fill", color = "white", linewidth = 1) +
+  coord_polar(theta = "y", direction = -1) +
+  # xlim() sets the inner and outer size of the ring
+  xlim(c(-.75, 2)) +
+  ## Add the center of the plot annotation
+  # TODO Considering developing a geom_text_donut() function
+  geom_text(
+    data = dnt1_anno,
+    # Set x = to same as minimum xlim, and y = 0 to center the annotation
+    aes(x = -.75, y = 0, label = percent(percent)),
+    inherit.aes = FALSE,
+    fontface = "bold",
+    color = mps_cols("wine"),
+    size = 8
+  ) +
+  ## Add the scale_*_manual to set the group colors
+  scale_fill_manual(values = mps_cols("light wine", "gray")) +
+  ## Add the donut-specific theme
+  theme_mps_donut() +
+  ## Add the plot labels
+  labs(
+    title = "Donut Plot Highlighting One Group",
+    caption = "Source: I made it up.",
+    fill = NULL
+  )
+```
+`r mps_caption("Donut plot highlighting one variable", "plots")`
+
+``` {r donuts-highlight, eval=FALSE} 
+```
+\newpage
+
+## Donut Plots - Multiple Groups
+``` {r donut-multiple, echo=FALSE}
+ggplot(dnt2, aes(x = 1, y = Percent, fill = Ethnicity)) +
+  geom_col(position = "fill", color = "white", linewidth = 1) +
+  coord_polar(theta = "y", direction = -1) +
+  xlim(c(-0.25, 2)) +
+  scale_fill_manual(values = mps_cols("light yellow", "light blue", "light red",
+                                      "light teal", "light wine", "light gray")) +
+  scale_color_manual(values = mps_cols("dark yellow", "dark blue", "dark red",
+                                       "dark teal", "dark wine", "dark gray")) +
+  geom_label_mps(mapping = aes(label = percent(Percent), 
+                               y = Percent, 
+                               x = 1.75,
+                               color = Ethnicity),
+                 position = position_stack(vjust = 0.5)) +
+  theme_mps_donut() +
+  labs(
+    title = "Multiple Group Donut Plot",
+    caption = "Source: I made it up.",
+    fill = NULL
+  )
+```
+`r mps_caption("Normal donut plot", "plots")`
+
+``` {r donut-multiple, eval=FALSE} 
+```
+\newpage
+
+# Demonstration of Additional Functionality
+## Kable Tables
+To display tabular data, you should use the \space `kable` \space and \space `kableExtra` \space packages. Below is the same data as displayed in Plot 5, this time displayed in an MPS-themed table.
+
+``` {r kable-example, echo=FALSE}
+hbs %>% 
+  mutate(Percentage = percent_format()(Percentage)) %>% 
+  spread(Answer, Percentage) %>% 
+  kable(
+    format = "latex", # Comment this line out while viewing table in-line
+    booktabs = TRUE,
+    align = "lccccc",
+    linesep = ""
+  ) %>% 
+  kable_paper(lightable_options = "striped") %>% # For viewing inline while working
+  kable_styling(stripe_color = "mpswine!5", latex_options = c("scale_down", "HOLD_position", "striped")) %>% 
+  row_spec(row = 0, color = mps_cols("wine"))
+```
+
+`r mps_caption("Plot 5 data as a data table.","tables")`
+
+``` {r kable-example, eval=FALSE}
+```
+\newpage
+
+## Plot, Table, and Figure Captions
+
+You may have noticed from the above plots, tables, and figures that each is captioned with an iterative plot, figure, or table number. Those plot captions are generated with the \space `mps_caption(caption, type)` \space function. Acceptable types for that function are "plots", "tables", and "figures". Each type will begin their count from 1 and iterate every time the function is called throughout the document. 
+
+The \space `mps_caption()` \space function works by pasting \space \textbf{\LaTeX} \space and **R** functions together during document knitting. Part of the function of the caption includes a \space \textbf{\LaTeX} \space call to reduce the vertical height between the caption and the line before it. Sometimes [particularly in the case of wide tables which are scaled down to fit the width of the report] this reduction in vertical space is too much, or not enough. You can adjust the vertical space between the caption and the plot, figure, or table by adding \space `\vspace{distance}` \space before \space `mps_caption()`. Distances should be in points [pt] and can be any positive or negative number.
+
+\notebox{The default distance set in the plot caption function is -25pt. When adjusting the distance of your caption, start with 5 point increments to make your life easier.}
+
+## Text Colors
+
+Additionally, there is a new function available in the form of \space `mps_tcolor(color, text, mps = TRUE)`. This allows you to change the color of inline text to any of the colors listed in the tables below. When \space `mps = TRUE`, the default, you can use any MPS colors for inline text, and when `mps = FALSE`, you can use any of the base \space \textbf{\LaTeX} colors. The two tables below have been created with basic \space `markdown` syntax, rather than the full \space `kable` package due to the need to run the \space `mps_tcolor()` functions.
+
+**Function **                             |**Result**
+--------------------------------------|--------------------
+`mps_tcolor('red', 'red')`            |`r mps_tcolor('red', 'red')`
+`mps_tcolor('orange', 'orange')`      |`r mps_tcolor('orange', 'orange')`
+`mps_tcolor('yellow', 'yellow')`      |`r mps_tcolor('yellow', 'yellow')`
+`mps_tcolor('green', 'green')`        |`r mps_tcolor('green', 'green')`
+`mps_tcolor('teal', 'teal')`          |`r mps_tcolor('teal', 'teal')`
+`mps_tcolor('blue', 'blue')`          |`r mps_tcolor('blue', 'blue')`
+`mps_tcolor('darkblue', 'darkblue')`  |`r mps_tcolor('darkblue', 'darkblue')`
+`mps_tcolor('wine', 'wine')`          |`r mps_tcolor('wine', 'wine')`
+`mps_tcolor('gray', 'gray')`          |`r mps_tcolor('gray', 'gray')`
+
+`r mps_caption("Inline text colors when 'mps = TRUE'.","tables")`
+
+
+**Function**                                            |**Result**
+----------------------------------------------------|---------------------------
+`mps_tcolor('black', 'black', mps = FALSE)`         |`r mps_tcolor('black', 'black', mps = FALSE)`
+`mps_tcolor('blue', 'blue', mps = FALSE)`           |`r mps_tcolor('blue', 'blue', mps = FALSE)`
+`mps_tcolor('brown', 'brown', mps = FALSE)`         |`r mps_tcolor('brown', 'brown', mps = FALSE)`
+`mps_tcolor('cyan', 'cyan', mps = FALSE)`           |`r mps_tcolor('cyan', 'cyan', mps = FALSE)`
+`mps_tcolor('darkgray', 'darkgray', mps = FALSE)`   |`r mps_tcolor('darkgray', 'darkgray', mps = FALSE)`
+`mps_tcolor('gray', 'gray', mps = FALSE)`           |`r mps_tcolor('gray', 'gray', mps = FALSE)`
+`mps_tcolor('green', 'green', mps = FALSE)`         |`r mps_tcolor('green', 'green', mps = FALSE)`
+`mps_tcolor('lightgray', 'lightgray', mps = FALSE)` |`r mps_tcolor('lightgray', 'lightgray', mps = FALSE)`
+`mps_tcolor('lime', 'lime', mps = FALSE)`           |`r mps_tcolor('lime', 'lime', mps = FALSE)`
+`mps_tcolor('magenta', 'magenta', mps = FALSE)`     |`r mps_tcolor('magenta', 'magenta', mps = FALSE)`
+`mps_tcolor('olive', 'olive', mps = FALSE)`         |`r mps_tcolor('olive', 'olive', mps = FALSE)`
+`mps_tcolor('orange', 'orange', mps = FALSE)`       |`r mps_tcolor('orange', 'orange', mps = FALSE)`
+`mps_tcolor('pink', 'pink', mps = FALSE)`           |`r mps_tcolor('pink', 'pink', mps = FALSE)`
+`mps_tcolor('purple', 'purple', mps = FALSE)`       |`r mps_tcolor('purple', 'purple', mps = FALSE)`
+`mps_tcolor('red', 'red', mps = FALSE)`             |`r mps_tcolor('red', 'red', mps = FALSE)`
+`mps_tcolor('teal', 'teal', mps = FALSE)`           |`r mps_tcolor('teal', 'teal', mps = FALSE)`
+`mps_tcolor('violet', 'violet', mps = FALSE)`       |`r mps_tcolor('violet', 'violet', mps = FALSE)`
+`mps_tcolor('white', 'white', mps = FALSE)`         |`r mps_tcolor('white', 'white', mps = FALSE)`
+`mps_tcolor('yellow', 'yellow', mps = FALSE)`       |`r mps_tcolor('yellow', 'yellow', mps = FALSE)`
+
+`r mps_caption("Inline text colors when mps = FALSE.","tables")`
+
+## Special Callout Boxes
+
+There are additionally four new \space \textbf{\LaTeX} commands one can use in your **R Markdown** document. These commands allow you to create special callout boxes of different types. The note box is designed for something interesting or some additional context for something in your report, and uses `r mps_tcolor("blue","MPS Blue")` as the base color. The warn box is designed for some sort of warning before the end user takes an action, or something to keep in mind about data being displayed, and uses `r mps_tcolor("red","MPS Red")` as the base color. The important box is for important notices and uses `r mps_tcolor("orange","MPS Orange")` as the base color. And the special box allows the creator to set a specific title to the box as well as the box content and uses `r mps_tcolor("wine","MPS Wine")` as the base color.
+
+* **Command**
+  +   `\notebox{content}`
+  +   `\warnbox{content}`
+  +   `\impbox{content}`
+  +   `\specbox{title}{content}`
+
+\newpage
+
+\notebox{This is a note- something interesting worth extracting and pointing out to the reader! Long notes/warnings/etc. have wrapped text.}
+
+\warnbox{This is a warning: Something critical you should know before taking action!}
+
+\impbox{This is an important notice- Something is important!}
+
+\specbox{EXAMPLE}{This is some example text.}
+
+\specbox{Format Example}{This is some example text with \textbf{bolded} and \textit{italicized} and \textbf{\textit{both bolded and italicized}} text included.}
+
+\vspace{10pt} `r mps_caption("Custom LaTeX color box command outputs.", "figures")`
+
+## Additional Notes
+
+In addition to all the functionality above, these documents accept a variety of \space \textbf{\LaTeX} commands. For example, you can center text or callout boxes, or whatever else by adding \space `\begin{center}` before the text/item to be centered and \space `\end{center}` at the end. If you need an additional space before or after something in text blocks, you can use `\space` since two consecutive spaces is treated as a new line in **R Markdown**. This is most often useful when adding inline code since the MPS font, *Poppins*, interacts a little strangely with monospace fonts.
+
+Some useful \space \textbf{\LaTeX} commands:
+
+**Command**      |**Description**
+-----------------|--------------
+`\begin{center} \end{center}`        |Centering of some text.
+`\begin{flushright} \end{flushright}`|Right-justified text.
+`\space`                             |Adds an extra space where needed. 
+`\newpage`                           |Adds a page break.
+`\textbf{text}`                      |Bold text inside LaTeX commands.
+`\textit{text}`                      |Italic text inside LaTeX commands.
+
+`r mps_caption("Additional LaTeX commands.", "tables")`
+
+
