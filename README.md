@@ -9,7 +9,7 @@ This package relies on several other packages to function. While the installatio
 ```r
 ####  Setup dependencies  ####
 # Identify needed packages
-packages <- c(`devtools`, `ggplot2`, `ggfun`, `grDevices`, `showtext`, `sysfonts`, `tinytex`)
+packages <- c("devtools", "ggplot2", "ggfun", "grDevices", "showtext", "sysfonts", "tinytex")
 
 # Install packages if not installed
 install.packages(setdiff(packages, rownames(installed.packages())))
