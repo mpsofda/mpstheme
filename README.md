@@ -24,7 +24,7 @@ Once those packages are installed, there are a few more commands to run to make 
 ```r
 ####  Setup for LaTeX distribution  ####
 # Load tinytex
-require(tinytex)
+library(tinytex)
 
 # Install the tinyTeX distribution
 install_tinytex()
@@ -51,9 +51,9 @@ tlmgr_install(
 
 ####  Install Poppins & Import Fonts  ####
 # Load packages
-require(sysfont)     # For installing the MPS font
-require(extrafont)   # For loading installed fonts into R
-require(extrafontdb) # DB for registering installed fonts
+library(sysfont)     # For installing the MPS font
+library(extrafont)   # For loading installed fonts into R
+library(extrafontdb) # DB for registering installed fonts
 
 # Install MPS font
 font_add_google("Poppins")
@@ -71,7 +71,7 @@ Once the above is taken care of, go ahead and install the package from GitHub:
 ```r
 ####  Install mpstheme Package from GitHub  ####
 # Load devtools
-require(devtools)
+library(devtools)
 
 # Install package
 install_github("mpsofda/mpstheme")
@@ -128,12 +128,12 @@ In addition to these functions inside the R package and included R Markdown temp
 ## Ensure the fonts are registered and R knows where they are
 # This allows ggplot to use the correct font with all devices and outputs modes
 # This needs to be run every R session using fonts other than base R fonts
-require(extrafont)
+library(extrafont)
 loadfonts(device = "all", quiet = TRUE)
 
 ## Showtext and the following showtext options are not strictly necessary,
 #    but they do make the fonts smoother and more presentable.
-require(showtext)
+library(showtext)
 
 # Automatically enables showtext() for plots and figures
 showtext_auto() 
