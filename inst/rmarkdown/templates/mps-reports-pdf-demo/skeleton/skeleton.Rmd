@@ -29,19 +29,20 @@ knitr::opts_hooks$set(
 knitr::opts_chunk$set(
   numberLines = "source",
   echo = TRUE,
+  fig.align = "center",
   dev = "png",
   dpi = 300
 )
 
 ## Required Packages for Template
-require(mpstheme)
+library(mpstheme)
 
 # Extrafont for viewing plots inline with markdown document
-require(extrafont)
+library(extrafont)
 loadfonts(device = "all", quiet = TRUE)
 
 # Showtext allows the new fonts to be used in the outputs
-require(showtext)
+library(showtext)
 showtext_auto()
 
 #'*Use the below when knitting to pdf or html*
@@ -51,10 +52,10 @@ showtext_opts(dpi = 300)
 #showtext_opts(dpi = 96)
 
 ## Required Packages for Document
-require(tidyverse)
-require(cowplot)
-require(scales)
-require(kableExtra)
+library(tidyverse)
+library(cowplot)
+library(scales)
+library(kableExtra)
 ```
 ```{r title-chunk, fig.height=.5, fig.width=6.5, fig.align='center', echo=FALSE}
 title_mps(title = params$doctitle)
@@ -184,7 +185,7 @@ scale_fill_mps(palette)    # Adds the requested palette to the fill scale. See F
 ## R Markdown specific
 # R Functions:
 mps_caption(caption, type) # Adds the caption below a figure, table, or plot
-mps_fonts()                # Loads the fonts if not autoloaded by require(mpstheme)
+mps_fonts()                # Loads the fonts if not autoloaded by library(mpstheme)
 mps_tcolor(color, text)    # Change the color of text in an R Markdown doc
 
 # LaTeX Functions

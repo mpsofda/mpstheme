@@ -29,19 +29,20 @@ knitr::opts_hooks$set(
 knitr::opts_chunk$set(
   numberLines = "source",
   echo = FALSE,
+  fig.align = "center",
   dev = "png",
   dpi = 300
 )
 
 ## Required Packages for Template
-require(mpstheme)
+library(mpstheme)
 
 # Extrafont for viewing plots inline with markdown document
-require(extrafont)
+library(extrafont)
 loadfonts(device = "all", quiet = TRUE)
 
 # Showtext allows the new fonts to be used in the outputs
-require(showtext)
+library(showtext)
 showtext_auto()
 
 #'*Use the below when knitting to pdf or html*
