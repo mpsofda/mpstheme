@@ -51,7 +51,7 @@ tlmgr_install(
 
 ####  Install Poppins & Import Fonts  ####
 # Load packages
-library(sysfont)     # For installing the MPS font
+library(sysfonts)     # For installing the MPS font
 library(extrafont)   # For loading installed fonts into R
 library(extrafontdb) # DB for registering installed fonts
 
