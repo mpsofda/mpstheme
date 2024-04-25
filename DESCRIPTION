@@ -11,6 +11,7 @@ Imports:
     ggfun,
     ggplot2,
     grDevices,
+    magick,
     showtext,
     sysfonts
 Encoding: UTF-8

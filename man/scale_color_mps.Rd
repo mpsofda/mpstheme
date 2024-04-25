@@ -8,7 +8,7 @@ scale_color_mps(palette = "standard", discrete = TRUE, reverse = FALSE, ...)
 }
 \arguments{
 \item{palette}{Character name of an MPS Palette. Valid options include:
-primary, secondary, dark, light, hot, warm, cold, cool, purples.}
+primary, secondary, dark, light, hot, warm, mild, frigid, cold, cool, all, and colorful.}
 
 \item{discrete}{Boolean for whether aesthetic is discrete. Default is TRUE.}
 
