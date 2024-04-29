@@ -11,9 +11,17 @@
 \usepackage{tcolorbox}	% Warning, Example, and Note block styling
 \usepackage{ragged2e}	% Less strict ragged-right paragraph formatting
 \usepackage{listings}	% Formatting of R code blocks
+\usepackage{longtable} % Long tables... 
+\usepackage{booktabs} % Other table stuffs
 
 %% Set document font
-\setmainfont{Poppins}
+\setmainfont{Poppins}[
+	UprightFont = {*-Regular},
+	BoldFont = {*-Bold},
+	ItalicFont = {*-Italic},
+	BoldItalicFont = {*-BoldItalic},
+	Extension = {.ttf}
+]
 
 %% Set line spacing
 \linespread{1.25}
