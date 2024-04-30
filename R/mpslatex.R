@@ -2,7 +2,13 @@
 
 #' Simple incremental function to create new function...
 #'
+#' @description
+#' Add to beginning of an .Rmd file if you're using a for loop to run the .Rmd
+#' multiple times. Otherwise, there's no need to use this function.
+#'
 #' @param init Initial value, default should be 0
+#'
+#' @export
 increment <- function(init) function() { init <<- init + 1; init }
 
 #' Add a LaTeX caption below a table, plot, or figure.

@@ -10,5 +10,6 @@ increment(init)
 \item{init}{Initial value, default should be 0}
 }
 \description{
-Simple incremental function to create new function...
+Add to beginning of an .Rmd file if you're using a for loop to run the .Rmd
+multiple times. Otherwise, there's no need to use this function.
 }
