@@ -1,14 +1,6 @@
 ##### Plots, Tables, and Figures #####
 
-#' Simple incremental function to create new function...
-#'
-#' @description
-#' Add to beginning of an .Rmd file if you're using a for loop to run the .Rmd
-#' multiple times. Otherwise, there's no need to use this function.
-#'
-#' @param init Initial value, default should be 0
-#'
-#' @export
+# Simple incremental function to create new function...
 increment <- function(init) function() { init <<- init + 1; init }
 
 #' Add a LaTeX caption below a table, plot, or figure.
@@ -33,15 +25,8 @@ mps_caption <- function(caption, type) {
 }
 
 #Assigning new count functions
-#' @export
 plotcount <- increment(0)
-
-#Assigning new count functions
-#' @export
 tablecount <- increment(0)
-
-#Assigning new count functions
-#' @export
 figurecount <- increment(0)
 
 
