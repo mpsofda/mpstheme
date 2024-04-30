@@ -34,6 +34,8 @@ install_tinytex()
 #       It is included here so there are no delays when knitting a document the first time.
 tlmgr_install(
     pkgs = c(
+      "booktabs",
+      "colortbl",
       "fancyhdr",
       "fancyvrb",
       "fontspec",
