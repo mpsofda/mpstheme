@@ -33,8 +33,15 @@ mps_caption <- function(caption, type) {
 }
 
 #Assigning new count functions
+#' @export
 plotcount <- increment(0)
+
+#Assigning new count functions
+#' @export
 tablecount <- increment(0)
+
+#Assigning new count functions
+#' @export
 figurecount <- increment(0)
 
 
