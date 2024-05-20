@@ -122,6 +122,10 @@ mps_tcolor(color, text)    # Change the color of text in an R Markdown doc
 \warnbox{content}          # Warning note box
 \impbox{content}           # Important note box
 \specbox{title}{content}   # Like previous boxes, but allows you to change box title.
+
+# HTML Functions
+mps_caption_html(caption, type)  # Adds the caption below a figure, table, or plot
+mps_tcolor_html(color, text)     # Change the color of text in an R Markdown doc
 ```
 
 In addition to these functions inside the R package and included R Markdown templates, there are a few additional functions you should be aware of:
