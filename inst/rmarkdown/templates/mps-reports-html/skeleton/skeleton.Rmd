@@ -1,0 +1,94 @@
+---
+title: "MPS Report HTML"
+author: "Operational and Financial Data Analytics"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    css: css/mpsreport.css
+    highlight: mpstheme.theme
+params:
+  docauthor:   "Morrigan Hughes"   # Author for inclusion in final doc text
+  doctitle:    "R Markdown Template"    # Title for inclusion in final doc text
+  docsubtitle: "HTML Template for MPS Reports" # Subtitle for inclusion in final doc text
+---
+```{r setup, include=FALSE}
+## Knitr Chunk Options
+# Add number lines to source code blocks
+knitr::opts_hooks$set(
+  numberLines = function(options) {
+    attrs <- paste0("attr.", options$numberLines)
+    options[attrs] <- lapply(options[attrs], c, ".numberLines")
+    options
+  }
+)
+
+# Rest of the knitr chunk options
+knitr::opts_chunk$set(
+  numberLines = "source",
+  echo = FALSE,
+  fig.align = "center",
+  dev = "png",
+  dpi = 96
+)
+
+## Required Packages for Template
+library(mpstheme)
+library(htmltools)
+
+# Extrafont for viewing plots inline with markdown document
+library(extrafont)
+loadfonts(device = "all", quiet = TRUE)
+
+# Showtext allows the new fonts to be used in the outputs
+library(showtext)
+showtext_auto()
+
+#'*Use the below when knitting to pdf or html*
+showtext_opts(dpi = 200)
+
+#'*Use the below for inline viewing of plots*
+# showtext_opts(dpi = 96)
+
+## Required Packages for Document
+
+```
+```{r logo-chunk}
+htmltools::img(src = "logo/logo.png",
+               alt = "Minneapolis Public Schools",
+               width = "300",
+               style = "position: absolute; top:0; left:0; padding:10px;")
+```
+
+```{r title-chunk, fig.height=.5, fig.width=6.5, fig.align='center'}
+br()
+br()
+br()
+br()
+title_mps(title = params$doctitle)
+p(params$docsubtitle, style = "color: #777777; text-align: center; font-weight: 550")
+br()
+span("Author: ", style = "font-variant: small-caps; font-weight: 500")
+span(params$docauthor, style = "font-variant: small-caps; font-weight: 500; color: #394478")
+br()
+span("Date: ", style = "font-variant: small-caps; font-weight: 500") 
+span(format(Sys.Date(), "%d %B %Y"), style = "font-variant: small-caps; font-weight: 500; color: #394478")
+br()
+br()
+```
+
+# A level one header
+
+Some kind of text to go here, before the level two header.
+
+## Adding an RMarkdown Template
+
+This file is what a user will see when they select your template. Make sure that you update the fields in the yaml header. In particular you will want to update the `output` field to whatever format your template requires.
+
+This is a good place to demonstrate special features that your template provides. Ideally it should knit out-of-the-box, or at least contain clear instructions as to what needs changing.
+
+Finally, be sure to remove this message!
+
+### A level three header
+
+Some more text
+
