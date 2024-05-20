@@ -2,9 +2,11 @@
 
 export(geom_label_mps)
 export(mps_caption)
+export(mps_caption_html)
 export(mps_cols)
 export(mps_fonts)
 export(mps_tcolor)
+export(mps_tcolor_html)
 export(scale_color_mps)
 export(scale_fill_mps)
 export(theme_mps)
