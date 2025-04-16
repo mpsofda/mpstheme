@@ -78,10 +78,22 @@ hr {
   overflow: visible;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h4, h5, h6 {
   margin-top: 0;
   margin-bottom: 0.5rem;
   color: #591f63
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #394478
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #7d7d7d
 }
 
 p {
@@ -364,16 +376,16 @@ template {
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-bottom: 0.5rem;
-  font-weight: 500;
   line-height: 1.2;
 }
 
 h1, .h1 {
   font-size: 2.75rem;
+  font-weight: 500;
 }
 
 h2, .h2 {
-  font-size: 2.25rem;
+  font-size: 2rem;
 }
 
 h3, .h3 {
