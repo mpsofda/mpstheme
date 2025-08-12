@@ -10,13 +10,11 @@ mps_tcolor_html(color, text)
 \item{color}{Color for the text. Available choices when mps = TRUE are:
 yellow, blue, red, teal, orange, wine, green, purple, and gray.}
 
-\item{text}{Whatever text you want to change the color of.}
-
-\item{mps}{Boolean for whether you want the MPS official colors \link{TRUE}, or one of the
-default LaTeX colors \link{FALSE}.}
+\item{text}{Whatever text you want to change the color of.
+#'}
 }
 \value{
-A LaTeX textcolor function
+A HTML span color function
 }
 \description{
 Change the font color of text in an R Markdown document HTML output
