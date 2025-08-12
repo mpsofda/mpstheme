@@ -17,6 +17,7 @@ theme_mps <- function(pri.color = mps_cols("wine"),
                        ter.color = "gray40",
                        ...) {
   theme(
+    ...,
     # Set all text-based elements of the theme
     # Base text definition
     text = element_text(size = 14, color = pri.color, family = "Poppins"),
@@ -46,8 +47,7 @@ theme_mps <- function(pri.color = mps_cols("wine"),
     legend.key = element_rect(fill = "white"),
     # Facet aesthetics
     strip.background = element_roundrect(fill = pri.color, color = pri.color, r = .125),
-    strip.text = element_text(size = 9, face = "italic", color = "white"),
-    ...
+    strip.text = element_text(size = 9, face = "italic", color = "white")
   )
 }
 
@@ -70,6 +70,7 @@ theme_mps_donut <- function(pri.color = mps_cols("wine"),
                        ter.color = "gray40",
                        ...) {
   theme(
+    ...,
     # Set all text-based elements of the theme
     # Base text definition
     text = element_text(size = 14, color = pri.color, family = "Poppins"),
@@ -100,8 +101,7 @@ theme_mps_donut <- function(pri.color = mps_cols("wine"),
     legend.key = element_rect(fill = "white"),
     # Facet aesthetics
     strip.background = element_rect(fill = pri.color, color = pri.color),
-    strip.text = element_text(size = 9, face = "italic", color = "white"),
-    ...
+    strip.text = element_text(size = 9, face = "italic", color = "white")
   )
 }
 
