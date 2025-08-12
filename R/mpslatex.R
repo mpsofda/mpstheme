@@ -52,3 +52,28 @@ mps_tcolor <- function(color, text, mps = TRUE) {
     paste0("\\textcolor{",color,"}{",text,"}")
   }
 }
+
+#' Callout Boxes, for PDFs
+#'
+#' @param text Whatever text you want included inside the callout box
+#' @param type Type of callout box. Available choices are note, warning, important, and special.
+#' @param title Only used when type = "special". This will create a custom title for the callout box.
+#'
+#' @return A LaTeX special color box function
+#' @export
+mps_callout <- function(text, type = "note", title = NULL) {
+  if (type == "note") {
+    paste0("\\notebox{", text, "}")
+  } else if (type == "warning") {
+    paste0("\\warnbox{", text, "}")
+  } else if (type == "important") {
+    paste0("\\impbox{", text, "}")
+  } else if (type == "special" & !is.null(title)) {
+    paste0("\\specbox{", title, "}{", text, "}")
+  } else if (type == "special" & is.null(title)) {
+    paste0("ERROR: When using a special callout, argument title cannot be NULL.")
+  } else {
+    paste0("ERROR: Please choose a type from 'note', 'warning', 'important', and 'special'.")
+  }
+}
+
