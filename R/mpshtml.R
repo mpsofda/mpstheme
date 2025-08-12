@@ -36,11 +36,53 @@ figurecount <- increment(0)
 #' @param color Color for the text. Available choices when mps = TRUE are:
 #' yellow, blue, red, teal, orange, wine, green, purple, and gray.
 #' @param text Whatever text you want to change the color of.
-#' @param mps Boolean for whether you want the MPS official colors [TRUE], or one of the
-#' default LaTeX colors [FALSE].
-#'
-#' @return A LaTeX textcolor function
+#' #'
+#' @return A HTML span color function
 #' @export
 mps_tcolor_html <- function(color, text) {
     paste0("<span style='color: ", mps_cols(color), "'>",text,"</span>")
+}
+
+#' Callout Boxes, for HTML docs
+#'
+#' @param text Whatever text you want included inside the callout box
+#' @param type Type of callout box. Available choices are note, warning, important, and special.
+#' @param title Only used when type = "special". This will create a custom title for the callout box.
+#'
+#' @return An HTML div function
+#' @export
+mps_callout_html <- function(text, type = "note", title = NULL) {
+  if (type == "note") {
+    div(
+      span("NOTE", style = "font-variant: small-caps; font-weight: 650; color: #5261AC"),
+      br(),
+      span(text, style = "color: #000000"),
+      class = "warning", style = "background-color: #f5f6fa; color: #5261AC; border-left: solid #5261AC 4px; border-radius: 6px; padding: 0.7em"
+    )
+  } else if (type == "important") {
+    div(
+      span("IMPORTANT", style = "font-variant: small-caps; font-weight: 650; color: #F57A21"),
+      br(),
+      span(text, style = "color: #000000"),
+      class = "warning", style = "background-color: #fef7f2; color: #F57A21; border-left: solid #F57A21 4px; border-radius: 6px; padding: 0.7em"
+    )
+  } else if (type == "warning") {
+    div(
+      span("WARNING", style = "font-variant: small-caps; font-weight: 650; color: #BA3326"),
+      br(),
+      span(text, style = "color: #000000"),
+      class = "warning", style = "background-color: #fbf3f2; color: #BA3326; border-left: solid #BA3326 4px; border-radius: 6px; padding: 0.7em"
+    )
+  } else if (type == "special" & !is.null(title)) {
+    div(
+      span(title, style = "font-variant: small-caps; font-weight: 650; color: #591F63"),
+      br(),
+      span(text, style = "color: #000000"),
+      class = "warning", style = "background-color: #f5f2f6; color: #591F63; border-left: solid #591F63 4px; border-radius: 6px; padding: 0.7em"
+    )
+  } else if (type == "special" & is.null(title)) {
+    paste0("ERROR: When using a special callout, argument title cannot be NULL.")
+  } else {
+    paste0("ERROR: Please choose a type from 'note', 'warning', 'important', and 'special'.")
+  }
 }
