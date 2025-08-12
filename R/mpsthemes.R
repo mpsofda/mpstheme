@@ -35,7 +35,7 @@ theme_mps <- function(pri.color = mps_cols("wine"),
     legend.title = element_text(size = 11, color = sec.color),
     legend.text = element_text(size = 9, color = ter.color),
     # Plot aesthetics
-    plot.background = element_roundrect(color = pri.color, size = 1, r = .05),
+    plot.background = element_roundrect(color = pri.color, linewidth = 1, r = .05),
     plot.margin = margin(.125, .125, .125, .125, unit = "inches"),
     # Panel aesthetics
     panel.background = element_rect(fill = "white"),
@@ -89,7 +89,7 @@ theme_mps_donut <- function(pri.color = mps_cols("wine"),
     legend.text = element_text(size = 9, color = ter.color),
     legend.position = "bottom",
     # Plot aesthetics
-    plot.background = element_roundrect(color = pri.color, size = 1, r = .05),
+    plot.background = element_roundrect(color = pri.color, linewidth = 1, r = .05),
     plot.margin = margin(.125, 1, .125, 1, unit = "inches"),
     # Panel aesthetics
     panel.background = element_rect(fill = "white"),
